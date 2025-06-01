@@ -3,6 +3,6 @@ namespace SomerenApp.ViewModels
 {
     public class AccompanimentViewModel
     {
-        Accompaniment Accompaniment { get; set; }
+        AccompanimentIndexViewModel Accompaniment { get; set; }
     }
 }

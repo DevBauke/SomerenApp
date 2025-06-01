@@ -1,7 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
+using SomerenActivity = SomerenApp.Models.Activity;
 using SomerenApp.Models;
-using System.Data;
-using System.Diagnostics;
 
 namespace SomerenApp.Repositories
 {
@@ -116,13 +115,13 @@ namespace SomerenApp.Repositories
                 }
             }
         }
-        public List<Lecturer> GetSupervisors(int activityNumber)
+        public List<Lecturer> GetNonSupervisors(int activityNumber)
         {
             return AddLecturersToActivityList("SELECT * FROM lecturers WHERE lecturerNumber NOT IN  (SELECT lecturerNumber FROM accompaniments WHERE activityNumber = @ActivityNumber;);", activityNumber);
         }
-        public List<Lecturer> GetNonSupervisors(int activityNumber)
+        public List<Lecturer> GetSupervisors(int activityNumber)
         {
-            return AddLecturersToActivityList("SELECT lecturerNumber FROM accompaniments WHERE @ActivityNumber = @ActivityNumber;", activityNumber);
+            return AddLecturersToActivityList("SELECT * FROM accompaniments WHERE @ActivityNumber = @ActivityNumber;", activityNumber);
         }
         public List<Lecturer> AddLecturersToActivityList(string query, int activityNumber)
         {
@@ -144,14 +143,14 @@ namespace SomerenApp.Repositories
             return lecturers;
         }
 
-        public void RemoveSuperVisor(int activityNumber, int lecturerNumber)
+        public void RemoveSuperVisor(AccompanimentCreateDeleteViewModel accompanimentCreateDeleteViewModel)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 string query = $"DELETE FROM accompaniments WHERE activityNumber = @ActivityNumber AND lecturerNumber = @LecturerNumber";
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@ActivityNumber", activityNumber);
-                command.Parameters.AddWithValue("@LecturerNumber", lecturerNumber);
+                command.Parameters.AddWithValue("@ActivityNumber", accompanimentCreateDeleteViewModel.Activity.ActivityNumber);
+                command.Parameters.AddWithValue("@LecturerNumber", accompanimentCreateDeleteViewModel.Lecturer.LecturerNumber);
                 command.Connection.Open();
                 int nrofRowsAffected = command.ExecuteNonQuery();
                 if (nrofRowsAffected == 0)
@@ -160,16 +159,21 @@ namespace SomerenApp.Repositories
                 }
             }
         }
-        public void AddSuperVisor(int activityNumber, int lecturerNumber)
+        public void AddSuperVisor(AccompanimentCreateDeleteViewModel accompanimentCreateDeleteViewModel)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 string query = $"INSERT INTO accompaniments (activityNumber, lecturerNumber)" +
                     "VALUES(@ActivityNumber, @LecturerNumber);";
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@ActivityNumber", activityNumber);
-                command.Parameters.AddWithValue("@LecturerNumber", lecturerNumber);
+                command.Parameters.AddWithValue("@ActivityNumber", accompanimentCreateDeleteViewModel.Activity.ActivityNumber);
+                command.Parameters.AddWithValue("@LecturerNumber", accompanimentCreateDeleteViewModel.Lecturer.LecturerNumber);
                 command.Connection.Open();
+                int nrofRowsAffected = command.ExecuteNonQuery();
+                if (nrofRowsAffected == 0)
+                {
+                    throw new Exception("No records updated!");
+                }
             }
         }
     }

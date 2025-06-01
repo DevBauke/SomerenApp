@@ -1,4 +1,4 @@
-﻿@model SomerenApp.Models.Accompaniment
+﻿@model SomerenApp.Models.AccompanimentIndexViewModel
 @{
 	ViewData["Title"] = "Accompaniments";
 }
@@ -20,7 +20,7 @@
 	</thead>
 	<tbody class="bg-opacity-10 bg-black">
 		@{
-				foreach (Lecturer lecturer in Model.Supervisors)
+			foreach (Lecturer lecturer in Model.Supervisors)
 			{
 				<tr>
 					<td>@lecturer.LastName</td>
@@ -28,7 +28,7 @@
 					<td>@lecturer.Age</td>
 					<td>@lecturer.PhoneNumber</td>
 						<td>
-						<a href="/Accompaniments/Delete/?AId=@Model?.Activity.ActivityNumber&LId=@lecturer.LecturerNumber"></a>
+							<a href="/Accompaniments/Delete/?AId=@Model?.Activity.ActivityNumber&LId=@lecturer.LecturerNumber">Delete</a>
 						</td>
 				</tr>
 			}
@@ -56,6 +56,7 @@
 					<td>@lecturer.Age</td>
 					<td>@lecturer.PhoneNumber</td>
 					<td>
+						<a href="/Accompaniments/Create/?AId=@Model?.Activity.ActivityNumber&LId=@lecturer.LecturerNumber">Create</a>
 					</td>
 				</tr>
 			}

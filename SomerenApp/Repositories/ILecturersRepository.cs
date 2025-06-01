@@ -11,5 +11,7 @@ namespace SomerenApp.Repositories
         void DeleteLecturer(Lecturer lecturer);
         List<Lecturer> GetSupervisors(int activityNumber);
         List<Lecturer> GetNonSupervisors(int activityNumber);
+        void RemoveSuperVisor(AccompanimentCreateDeleteViewModel accompanimentCreateDeleteViewModel);
+        void AddSuperVisor(AccompanimentCreateDeleteViewModel accompanimentCreateDeleteViewModel);
     }
 }
