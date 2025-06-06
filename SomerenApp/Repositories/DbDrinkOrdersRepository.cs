@@ -9,7 +9,7 @@ namespace SomerenApp.Repositories
 
         public DbDrinkOrdersRepository(IConfiguration configuration) 
         {
-            _connectionString = configuration.GetConnectionString("SomerenDatabase");
+            _connectionString = configuration.GetConnectionString("DB2");
         }
 
         public void AddOrder(DrinkOrder order)

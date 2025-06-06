@@ -10,7 +10,7 @@ namespace SomerenApp.Repositories
 
         public DbActivitiesRepository(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("SomerenDatabase");
+            _connectionString = configuration.GetConnectionString("DB2");
         }
 
         private Activity ReadActivity(SqlDataReader reader)

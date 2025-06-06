@@ -9,7 +9,7 @@ namespace SomerenApp.Repositories
 
         public DbStudentsRepository(IConfiguration configuration) 
         {
-            _connectionString = configuration.GetConnectionString("SomerenDatabase");
+            _connectionString = configuration.GetConnectionString("DB2");
         }
 
         public void Add(Student student) 

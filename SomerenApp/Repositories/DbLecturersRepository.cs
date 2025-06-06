@@ -9,7 +9,7 @@ namespace SomerenApp.Repositories
         private readonly string? _connectionString;
         public DbLecturersRepository(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("SomerenDatabase");
+            _connectionString = configuration.GetConnectionString("DB2");
         }
         public List<Lecturer> GetAllLecturers()
         {

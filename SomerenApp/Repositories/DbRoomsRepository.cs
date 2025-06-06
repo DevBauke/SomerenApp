@@ -10,7 +10,7 @@ namespace SomerenApp.Repositories
         public DbRoomsRepository(IConfiguration configuration)
         {
             //get database connectionstring from appsettings
-            _connectionString = configuration.GetConnectionString("SomerenDatabase");
+            _connectionString = configuration.GetConnectionString("DB2");
         }
 
 
