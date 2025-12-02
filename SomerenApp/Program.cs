@@ -6,6 +6,8 @@ namespace SomerenApp
     {
         public static void Main(string[] args)
         {
+            DotNetEnv.Env.TraversePath().Load();
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.

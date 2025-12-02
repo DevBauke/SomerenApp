@@ -9,7 +9,11 @@ namespace SomerenApp.Repositories
 
         public DbStudentsRepository(IConfiguration configuration) 
         {
-            _connectionString = configuration.GetConnectionString("SomerenDatabase");
+            _connectionString = Environment.GetEnvironmentVariable("Someren_ConnectionString");
+
+            if (string.IsNullOrWhiteSpace(_connectionString))
+                throw new InvalidOperationException("Someren_ConnectionString is niet ingesteld in .env");
+            //configuration.GetConnectionString("SomerenDatabase");
         }
 
         public void Add(Student student) 

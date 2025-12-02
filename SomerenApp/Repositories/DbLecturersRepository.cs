@@ -9,7 +9,11 @@ namespace SomerenApp.Repositories
         private readonly string? _connectionString;
         public DbLecturersRepository(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("SomerenDatabase");
+            //_connectionString = configuration.GetConnectionString("SomerenDatabase");
+            _connectionString = Environment.GetEnvironmentVariable("Someren_ConnectionString");
+
+            if (string.IsNullOrWhiteSpace(_connectionString))
+                throw new InvalidOperationException("Someren_ConnectionString is niet ingesteld in .env");
         }
         public List<Lecturer> GetAllLecturers()
         {
@@ -126,6 +130,11 @@ namespace SomerenApp.Repositories
                     throw new Exception("No records updated!");
                 }
             }
+        }
+
+        public int GetAvailableRoomId()
+        {
+            throw new NotImplementedException();
         }
 
         /*public int GetAvailableRoomId()

@@ -10,7 +10,11 @@ namespace SomerenApp.Repositories
         public DbRoomsRepository(IConfiguration configuration)
         {
             //get database connectionstring from appsettings
-            _connectionString = configuration.GetConnectionString("SomerenDatabase");
+            //_connectionString = configuration.GetConnectionString("SomerenDatabase");
+            _connectionString = Environment.GetEnvironmentVariable("Someren_ConnectionString");
+
+            if (string.IsNullOrWhiteSpace(_connectionString))
+                throw new InvalidOperationException("Someren_ConnectionString is niet ingesteld in .env");
         }
 
 
