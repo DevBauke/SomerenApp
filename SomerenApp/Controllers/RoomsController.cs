@@ -17,16 +17,17 @@ namespace SomerenApp.Controllers
 
         //public RoomsController()
         //{
+               //dummyRoomsRepository
         //    _roomsRepository = new DummyRoomsRepository();
         //}
 
-        public IActionResult Index(string? roomsize)
+        public IActionResult Index(string? roomSize)
         {
             List<Room> rooms;
 
-            if (!string.IsNullOrEmpty(roomsize) && roomsize != "All")
+            if (!string.IsNullOrEmpty(roomSize) && roomSize != "All")
             {
-                rooms = _roomsRepository.GetRoomsBySize(roomsize);
+                rooms = _roomsRepository.GetRoomsBySize(roomSize);
             }
             else 
             {
@@ -54,7 +55,7 @@ namespace SomerenApp.Controllers
                 {
                     if (_roomsRepository.GetAllRooms().Any(x => x.RoomNumber == room.RoomNumber))
                     {
-                        //foutmelding toevoegen aan ViewData als kamernummer als bestaat
+                        //adding error message to ViewData if RoomNumber already exists
                         ViewData["ErrorMessage"] = "This room number already exists.";
                     }
 
@@ -138,7 +139,5 @@ namespace SomerenApp.Controllers
                 return View(room);
             }
         }
-
-
     }
 }

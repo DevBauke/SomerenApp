@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
+using SomerenActivity = SomerenApp.Models.Activity;
 using SomerenApp.Models;
-using System.Data;
 
 namespace SomerenApp.Repositories
 {
@@ -42,7 +42,6 @@ namespace SomerenApp.Repositories
             string lastName = (string)reader["lastName"];
             byte age = (byte)reader["age"];
             string phoneNumber = (string)reader["phoneNumber"];
-            //int roomId = (int)reader["roomId"];
             return new Lecturer(lecturerNumber, firstName, lastName,  age, phoneNumber);
         }
         public Lecturer? GetLecturerByID(int lecturerNumber)
@@ -78,18 +77,8 @@ namespace SomerenApp.Repositories
                 command.Parameters.AddWithValue("@LastName", lecturer.LastName);
                 command.Parameters.AddWithValue("@Age", lecturer.Age);
                 command.Parameters.AddWithValue("@PhoneNumber", lecturer.PhoneNumber);
-                //command.Parameters.AddWithValue("@RoomId", lecturer.RoomId);
                 command.Connection.Open();
                 lecturer.LecturerNumber = Convert.ToInt32(command.ExecuteScalar());
-
-                string checkRoomQuery = "SELECT COUNT(*) FROM rooms WHERE RoomId = @RoomId";
-                SqlCommand checkRoomCommand = new SqlCommand(checkRoomQuery, connection);
-                checkRoomCommand.Parameters.AddWithValue("@RoomId", lecturer.RoomId);
-                int roomCount = (int)checkRoomCommand.ExecuteScalar();
-                if (roomCount == 0 )
-                {
-                    throw new Exception($"The RoomId {lecturer.RoomId} does not exist.");
-                }
             }
         }
 
@@ -98,14 +87,13 @@ namespace SomerenApp.Repositories
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 string query = $"UPDATE lecturers SET firstName = @FirstName, lastName = @LastName, " +
-                    "age = @Age, phoneNumber = @PhoneNumber WHERE lecturerNumber = @LecturerNumber";//, roomId = @RoomId
+                    "age = @Age, phoneNumber = @PhoneNumber WHERE lecturerNumber = @LecturerNumber";
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@FirstName", lecturer.FirstName);
                 command.Parameters.AddWithValue("@LastName", lecturer.LastName);
                 command.Parameters.AddWithValue("@Age", lecturer.Age);
                 command.Parameters.AddWithValue("@PhoneNumber", lecturer.PhoneNumber);
                 command.Parameters.AddWithValue("@LecturerNumber", lecturer.LecturerNumber);
-                //command.Parameters.AddWithValue("@RoomId", lecturer.RoomId);
                 command.Connection.Open();
 
                 int nrofRowsAffected = command.ExecuteNonQuery();
@@ -131,21 +119,66 @@ namespace SomerenApp.Repositories
                 }
             }
         }
-
-        public int GetAvailableRoomId()
+        public List<Lecturer> GetNonSupervisors(int activityNumber)
         {
-            throw new NotImplementedException();
+            return AddLecturersToActivityList("SELECT * FROM lecturers WHERE lecturerNumber NOT IN  (SELECT lecturerNumber FROM accompaniments WHERE activityNumber = @ActivityNumber;);", activityNumber);
+        }
+        public List<Lecturer> GetSupervisors(int activityNumber)
+        {
+            return AddLecturersToActivityList("SELECT * FROM accompaniments WHERE @ActivityNumber = @ActivityNumber;", activityNumber);
+        }
+        public List<Lecturer> AddLecturersToActivityList(string query, int activityNumber)
+        {
+            List<Lecturer> lecturers = new List<Lecturer>();
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@ActivityNumber", activityNumber);
+                command.Connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Lecturer lecturer = ReadLecturer(reader);
+                    lecturers.Add(lecturer);
+                }
+            }
+            return lecturers;
         }
 
-        /*public int GetAvailableRoomId()
+        public void RemoveSuperVisor(AccompanimentCreateDeleteViewModel accompanimentCreateDeleteViewModel)
         {
-            using (SqlConnection sqlConnection = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                sqlConnection.Open();
-                string querie = "SELECT TOP 1 roomId FROM rooms WHERE RoomType='Lecturer'";
-                SqlCommand command = new SqlCommand(querie, sqlConnection);
-                return Convert.ToInt32(command.ExecuteScalar());
+                string query = $"DELETE FROM accompaniments WHERE activityNumber = @ActivityNumber AND lecturerNumber = @LecturerNumber";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@ActivityNumber", accompanimentCreateDeleteViewModel.Activity.ActivityNumber);
+                command.Parameters.AddWithValue("@LecturerNumber", accompanimentCreateDeleteViewModel.Lecturer.LecturerNumber);
+                command.Connection.Open();
+                int nrofRowsAffected = command.ExecuteNonQuery();
+                if (nrofRowsAffected == 0)
+                {
+                    throw new Exception("No records updated!");
+                }
             }
-        }*/
+        }
+        public void AddSuperVisor(AccompanimentCreateDeleteViewModel accompanimentCreateDeleteViewModel)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                string query = $"INSERT INTO accompaniments (activityNumber, lecturerNumber)" +
+                    "VALUES(@ActivityNumber, @LecturerNumber);";
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@ActivityNumber", accompanimentCreateDeleteViewModel.Activity.ActivityNumber);
+                command.Parameters.AddWithValue("@LecturerNumber", accompanimentCreateDeleteViewModel.Lecturer.LecturerNumber);
+                command.Connection.Open();
+                int nrofRowsAffected = command.ExecuteNonQuery();
+                if (nrofRowsAffected == 0)
+                {
+                    throw new Exception("No records updated!");
+                }
+            }
+        }
     }
 }
