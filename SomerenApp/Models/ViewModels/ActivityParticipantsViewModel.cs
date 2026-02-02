@@ -3,7 +3,7 @@ using SomerenApp.Controllers;
 using SomerenActivity = SomerenApp.Models.Activity; //prevents confusion with System.Diagnostics.Activity
 
 
-namespace SomerenApp.Models
+namespace SomerenApp.Models.ViewModels
 {
     public class ActivityParticipantsViewModel
     {
@@ -21,7 +21,7 @@ namespace SomerenApp.Models
         {
         }
 
-        public ActivityParticipantsViewModel(Activity activity, List<Student> participants, List<Student> nonParticipants, List<SomerenActivity> activities)
+        public ActivityParticipantsViewModel(SomerenActivity activity, List<Student> participants, List<Student> nonParticipants, List<SomerenActivity> activities)
         {
             Activity = activity;
             Participants = participants;

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using SomerenApp.Models;
-using SomerenApp.Repositories;
+using SomerenApp.Repositories.Interfaces;
 using SomerenActivity = SomerenApp.Models.Activity; //prevents confusion with System.Diagnostics.Activity
 
 namespace SomerenApp.Controllers

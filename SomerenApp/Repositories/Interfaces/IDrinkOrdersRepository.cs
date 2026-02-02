@@ -1,6 +1,6 @@
 ﻿using SomerenApp.Models;
 
-namespace SomerenApp.Repositories
+namespace SomerenApp.Repositories.Interfaces
 {
     public interface IDrinkOrdersRepository
     {

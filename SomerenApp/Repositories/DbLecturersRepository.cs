@@ -1,6 +1,8 @@
 ﻿using Microsoft.Data.SqlClient;
 using SomerenActivity = SomerenApp.Models.Activity;
 using SomerenApp.Models;
+using SomerenApp.Repositories.Interfaces;
+using SomerenApp.Models.ViewModels;
 
 namespace SomerenApp.Repositories
 {
@@ -46,6 +48,7 @@ namespace SomerenApp.Repositories
         }
         public Lecturer? GetLecturerByID(int lecturerNumber)
         {
+            Console.WriteLine($"GetLecturerByID: lecturerNumber: {lecturerNumber}");
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 string query = $"SELECT lastName, firstName, age, phoneNumber, lecturerNumber, roomId FROM lecturers WHERE lecturerNumber = @LecturerNumber";
@@ -121,11 +124,11 @@ namespace SomerenApp.Repositories
         }
         public List<Lecturer> GetNonSupervisors(int activityNumber)
         {
-            return AddLecturersToActivityList("SELECT * FROM lecturers WHERE lecturerNumber NOT IN  (SELECT lecturerNumber FROM accompaniments WHERE activityNumber = @ActivityNumber;);", activityNumber);
+            return AddLecturersToActivityList("SELECT * FROM lecturers WHERE LecturerNumber NOT IN (SELECT lecturerNumber FROM accompaniments WHERE activityNumber = @ActivityNumber);", activityNumber);
         }
         public List<Lecturer> GetSupervisors(int activityNumber)
         {
-            return AddLecturersToActivityList("SELECT * FROM accompaniments WHERE @ActivityNumber = @ActivityNumber;", activityNumber);
+            return AddLecturersToActivityList("SELECT * FROM lecturers WHERE LecturerNumber IN (SELECT lecturerNumber FROM accompaniments WHERE activityNumber = @ActivityNumber);", activityNumber);
         }
         public List<Lecturer> AddLecturersToActivityList(string query, int activityNumber)
         {
@@ -151,7 +154,7 @@ namespace SomerenApp.Repositories
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                string query = $"DELETE FROM accompaniments WHERE activityNumber = @ActivityNumber AND lecturerNumber = @LecturerNumber";
+                string query = "DELETE FROM Accompaniments WHERE activityNumber = @ActivityNumber AND lecturerNumber = @LecturerNumber;";
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@ActivityNumber", accompanimentCreateDeleteViewModel.Activity.ActivityNumber);
                 command.Parameters.AddWithValue("@LecturerNumber", accompanimentCreateDeleteViewModel.Lecturer.LecturerNumber);
@@ -167,8 +170,9 @@ namespace SomerenApp.Repositories
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
-                string query = $"INSERT INTO accompaniments (activityNumber, lecturerNumber)" +
-                    "VALUES(@ActivityNumber, @LecturerNumber);";
+                Console.WriteLine($"ActivityNumber: {accompanimentCreateDeleteViewModel.Activity.ActivityNumber}");
+                Console.WriteLine($"LecturerNumber: {accompanimentCreateDeleteViewModel.Lecturer.LecturerNumber}");
+                string query = "INSERT INTO Accompaniments (activityNumber, lecturerNumber) VALUES(@ActivityNumber, @LecturerNumber);";
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@ActivityNumber", accompanimentCreateDeleteViewModel.Activity.ActivityNumber);
                 command.Parameters.AddWithValue("@LecturerNumber", accompanimentCreateDeleteViewModel.Lecturer.LecturerNumber);

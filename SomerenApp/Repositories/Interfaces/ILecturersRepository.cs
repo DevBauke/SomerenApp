@@ -1,6 +1,7 @@
 ﻿using SomerenApp.Models;
+using SomerenApp.Models.ViewModels;
 
-namespace SomerenApp.Repositories
+namespace SomerenApp.Repositories.Interfaces
 {
     public interface ILecturersRepository
     {

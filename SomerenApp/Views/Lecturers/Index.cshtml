@@ -1,7 +1,9 @@
 ﻿@model List<SomerenApp.Models.Lecturer>
 @{
-	ViewData["Title"] = "Lecturer";
+	ViewData["Title"] = "Lecturer"; 
+	string? errorMessage = (string)ViewData["ErrorMessage"];
 }
+<h4>@errorMessage</h4>
 <div class="text-center">
 	<h1 class="display-4 text-info">Lecturers</h1>
 	<a href="Lecturers/Create">Add Lecturer</a>

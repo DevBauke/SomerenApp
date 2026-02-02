@@ -6,21 +6,20 @@
 }
 <h4>@errorMessage</h4>
 <h1>Delete accompaniment</h1>
-<form action="/Accompaniments/Delete" method="post">
-	<h2>Lecturer: @Model.Lecturer.FirstName @Model.Lecturer.LastName</h2>
-	<h3>Lecturer number: @Model.Lecturer.LecturerNumber</h3>
+<form action="/Lecturers/DeleteAccompaniment" method="post">
+	<p>Lecturer: @Model.Lecturer.FirstName @Model.Lecturer.LastName</p>
+	<p>Lecturer number: @Model.Lecturer.LecturerNumber</p>
+	<input hidden type="number" name="Activity.ActivityNumber" value="@Model.Activity.ActivityNumber" />
+	<input hidden type="text" id="FirstName" name="FirstName" value="@Model.Activity.ActivityType" />
+	<input hidden type="text" name="LecturerNumber" value="@Model.Activity.ActivityDate" />
+
+	<p>Activity: @Model.Activity.ActivityType</p>
+	<p>Date: @Model.Activity.ActivityDate</p>
 	<input hidden type="number" name="Lecturer.LecturerNumber" value="@Model.Lecturer.LecturerNumber" />
 	<input hidden type="text" name="Lecturer.FirstName" required value="@Model.Lecturer.FirstName" />
 	<input hidden type="text" name="Lecturer.LastName" required value="@Model.Lecturer.LastName" />
 	<input hidden type="number" name="Lecturer.Age" required value="@Model.Lecturer.Age" />
 	<input hidden type="tel" name="Lecturer.PhoneNumber" required value="@Model.Lecturer.PhoneNumber" />
-
-	<h2>Activity: @Model.Activity.ActivityType</h2>
-	<h3>Date: @Model.Activity.ActivityDate</h3>
-	<input hidden type="number" name="Activity.ActivityNumber" value="@Model.Activity.ActivityNumber" />
-	<input hidden type="text" name="Activity.ActivityType" value="@Model.Activity.ActivityType" />
-	<input hidden type="text" name="Activity.ActivityDate" value="@Model.Activity.ActivityDate" />
-	
 	<button type="submit" class="btn btn-primary">Delete</button>
 </form>
-<a href="/Accompaniments/Index?activityNumber=@Model.Activity.ActivityNumber">Back to List</a>
+<a href="/Activities/Index">Back to List</a>

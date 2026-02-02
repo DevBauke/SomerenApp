@@ -1,7 +1,7 @@
 ﻿using SomerenApp.Models;
 using System.Data.Common;
 
-namespace SomerenApp.Repositories
+namespace SomerenApp.Repositories.Interfaces
 {
     public interface IParticipantsRepository
     {

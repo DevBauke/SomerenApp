@@ -1,6 +1,7 @@
 ﻿using SomerenApp.Models;
-using SomerenApp.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using SomerenApp.Repositories.Interfaces;
+using System.Linq.Expressions;
 
 namespace SomerenApp.Controllers
 {
@@ -12,28 +13,34 @@ namespace SomerenApp.Controllers
         {
             _lecturersRepository = lecturersRepository;
         }
+        [HttpGet]
         public IActionResult Index()
         {
-            /*List<Lecturer> lecturers = [
-new Lecturer("Dijkstra", "Edsger", 90, "020 1234567"),
-new Lecturer("Tanenbaum", "Andrew", 75, "020 1234567"),
-new Lecturer("Stein", "Clifford", 60, "020 1234567"),
-                ];*/
-
             try
             {
                 List<Lecturer> lecturers = _lecturersRepository.GetAllLecturers();
                 return View(lecturers);
             }
-            catch
+            catch (Exception ex)
             {
-                return RedirectToAction("Index");
+                ViewData["ErrorMessage"] = "LecturerIndex could not be loaded.";
+                Console.WriteLine(ex.Message);
+                return RedirectToAction("Index", "Home");
             }
-
         }
+        [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception ex) 
+            {
+                ViewData["ErrorMessage"] = "LecturerCreate could not be loaded.";
+                Console.WriteLine(ex.Message);
+                return RedirectToAction("Index");
+            }
         }
         [HttpPost]
         public ActionResult Create(Lecturer lecturer)
@@ -45,25 +52,34 @@ new Lecturer("Stein", "Clifford", 60, "020 1234567"),
             }
             catch (Exception ex)
             {
-                ViewData["ErrorMessage"] = ex.Message;
+                ViewData["ErrorMessage"] = "LecturerCreate failed to execute.";
+                Console.WriteLine(ex.Message);
                 return View(lecturer);
             }
         }
         [HttpGet]
         public ActionResult Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
             try
             {
+                if (id == null)
+                {
+                    throw new NullReferenceException();
+                }
                 Lecturer? lecturer = _lecturersRepository.GetLecturerByID((int)id);
                 return View(lecturer);
             }
-            catch
+            catch (NullReferenceException ex)
             {
-                throw new Exception("Given lecturer ID does not exist.");
+                ViewData["ErrorMessage"] = "Given lecturer ID does not exist.";
+                Console.WriteLine(ex.Message);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewData["ErrorMessage"] = "LecturerDelete could not be loaded.";
+                Console.WriteLine(ex.Message);
+                return RedirectToAction("Index");
             }
 
         }
@@ -77,25 +93,34 @@ new Lecturer("Stein", "Clifford", 60, "020 1234567"),
             }
             catch (Exception ex)
             {
-                ViewData["ErrorMessage"] = ex.Message;
+                ViewData["ErrorMessage"] = "LecturerDelete failed to execute.";
+                Console.WriteLine(ex.Message);
                 return View(lecturer);
             }
         }
         [HttpGet]
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
             try
             {
+                if (id == null)
+                {
+                    throw new NullReferenceException();
+                }
                 Lecturer? lecturer = _lecturersRepository.GetLecturerByID((int)id);
                 return View(lecturer);
             }
-            catch
+            catch (NullReferenceException ex)
             {
-                throw new Exception("Given lecturer ID does not exist.");
+                ViewData["ErrorMessage"] = "Given lecturer ID does not exist.";
+                Console.WriteLine(ex.Message);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewData["ErrorMessage"] = "AccompanimentIndex could not be loaded.";
+                Console.WriteLine(ex.Message);
+                return RedirectToAction("Index");
             }
 
         }
@@ -109,7 +134,8 @@ new Lecturer("Stein", "Clifford", 60, "020 1234567"),
             }
             catch (Exception ex)
             {
-                ViewData["ErrorMessage"] = ex.Message;
+                ViewData["ErrorMessage"] = "LecturerEdit failed to execute.";
+                Console.WriteLine(ex.Message);
                 return View(lecturer);
             }
         }

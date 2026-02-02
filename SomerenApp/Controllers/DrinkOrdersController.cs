@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SomerenApp.Models;
-using SomerenApp.Repositories;
+using SomerenApp.Repositories.Interfaces;
 using SomerenApp.ViewModels;
 
 namespace SomerenApp.Controllers

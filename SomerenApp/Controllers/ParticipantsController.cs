@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using SomerenApp.Models;
-using SomerenApp.Repositories;
 using System.Diagnostics.Eventing.Reader;
 using SomerenActivity = SomerenApp.Models.Activity;
 using System.Security.Cryptography;
 using System.Security.Authentication;
-using Microsoft.AspNetCore.Mvc.Rendering; //prevents confusion with System.Diagnostics.Activity
+using Microsoft.AspNetCore.Mvc.Rendering;
+using SomerenApp.Repositories.Interfaces;
+using SomerenApp.Models.ViewModels; //prevents confusion with System.Diagnostics.Activity
 
 
 

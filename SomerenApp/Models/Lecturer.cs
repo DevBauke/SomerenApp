@@ -1,4 +1,6 @@
-﻿namespace SomerenApp.Models
+﻿using SomerenApp.Models.Enums;
+
+namespace SomerenApp.Models
 {
     public class Lecturer
     {
@@ -28,5 +30,10 @@
         }
 
         public Lecturer(){}
+
+        public override string ToString()
+        {
+            return $"[Lecturer] LecturerNumber: {LecturerNumber}, FirstName: {FirstName}, LastName: {LastName}, Age: {Age}, PhoneNumber: {PhoneNumber}";
+        }
     }
 }

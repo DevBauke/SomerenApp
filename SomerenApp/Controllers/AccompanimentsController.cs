@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SomerenApp.Models;
-using SomerenApp.Repositories;
+using SomerenApp.Models.ViewModels;
+using SomerenApp.Repositories.Interfaces;
 
 namespace SomerenApp.Controllers
 {
@@ -10,11 +11,10 @@ namespace SomerenApp.Controllers
         private readonly ILecturersRepository _lecturersRepository;
         //private readonly IAccompanimentsRepository _accompanimentsRepository;
 
-        public AccompanimentsController(IActivitiesRepository activities, ILecturersRepository lecturersRepository) //, IAccompanimentsRepository accompanimentsRepository
+        public AccompanimentsController(IActivitiesRepository activities, ILecturersRepository lecturersRepository)
         {
             _activitiesRepository = activities;
             _lecturersRepository = lecturersRepository;
-            //_accompanimentsRepository = accompanimentsRepository;
         }
         [HttpGet]
         public ActionResult Index(int? activityNumber)
@@ -23,20 +23,32 @@ namespace SomerenApp.Controllers
             {
                 if (activityNumber == null)
                 {
-                    return View();
+                    Console.WriteLine("activityNumber == null");
                 }
-                Models.Activity activity = _activitiesRepository.GetByID((int)activityNumber);
-                List<Lecturer> supervisors = _lecturersRepository.GetSupervisors(activity.ActivityNumber);
-                List<Lecturer> nonSupervisors = _lecturersRepository.GetNonSupervisors(activity.ActivityNumber);
+                else
+                {
+                    Console.WriteLine($"activityNumber == {activityNumber}");
+                }
 
+                Activity activity = _activitiesRepository.GetByID((int)activityNumber);
+                Console.WriteLine(activity);
+
+                List<Lecturer> supervisors = _lecturersRepository.GetSupervisors(activity.ActivityNumber);
+                Console.WriteLine("supervisors:");
+                foreach (Lecturer lecturer in supervisors) { Console.WriteLine(lecturer); }
+
+                List<Lecturer> nonSupervisors = _lecturersRepository.GetNonSupervisors(activity.ActivityNumber);
+                Console.WriteLine("nonSupervisors:");
+                foreach (Lecturer lecturer in nonSupervisors) { Console.WriteLine(lecturer); }
                 AccompanimentIndexViewModel accompaniment = new AccompanimentIndexViewModel(activity, supervisors, nonSupervisors);
 
                 return View(accompaniment);
             }
             catch (Exception ex)
             {
-                ViewData["ErrorMessage"] = ex.Message;
-                return RedirectToAction("Index");
+                ViewData["ErrorMessage"] = "AccompanimentIndex could not be loaded.";
+                Console.WriteLine(ex.Message);
+                return RedirectToAction("Index", "Activities");
             }
         }
         [HttpGet]
@@ -49,11 +61,13 @@ namespace SomerenApp.Controllers
                 AccompanimentCreateDeleteViewModel accompanimentCreateDeleteViewModel = new(lecturer, activity);
                 return View(accompanimentCreateDeleteViewModel);
             }
-            catch 
-            { 
-                return View("Index");
+            catch (Exception ex)
+            {
+                ViewData["ErrorMessage"] = "AccompanimentDelete could not be loaded.";
+                Console.WriteLine(ex.Message);
+                return RedirectToAction("Index", "Accompaniments", new { activityNumber = AId });
             }
-            
+
         }
 
         [HttpPost]
@@ -62,19 +76,33 @@ namespace SomerenApp.Controllers
             try
             {
                 _lecturersRepository.RemoveSuperVisor(accompanimentCreateDeleteViewModel);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Accompaniments", new { activityNumber = accompanimentCreateDeleteViewModel.Activity.ActivityNumber });
             }
             catch (Exception ex)
             {
-                ViewData["ErrorMessage"] = ex.Message;
-                return View("Index");
+                ViewData["ErrorMessage"] = "DeleteAccompaniment failed to execute.";
+                Console.WriteLine(ex.Message);
+                return RedirectToAction("Index", "Accompaniments", new { activityNumber = accompanimentCreateDeleteViewModel.Activity.ActivityNumber });
             }
         }
-        
+
         [HttpGet]
-        public ActionResult Create(int activityNumber, int lecturerNumber)
+        public ActionResult Create(int AId, int LId)
         {
-            return View();
+            try
+            {
+                Lecturer lecturer = _lecturersRepository.GetLecturerByID(LId);
+                Activity activity = _activitiesRepository.GetByID(AId);
+                AccompanimentCreateDeleteViewModel accompanimentCreateDeleteViewModel = new(lecturer, activity);
+
+                return View(accompanimentCreateDeleteViewModel);
+            }
+            catch (Exception ex)
+            {
+                ViewData["ErrorMessage"] = "CreateAccompaniment could not be loaded.";
+                Console.WriteLine(ex.Message);
+                return RedirectToAction("Index", "Accompaniments", new { activityNumber = AId }); ;
+            }
         }
 
         [HttpPost]
@@ -83,12 +111,13 @@ namespace SomerenApp.Controllers
             try
             {
                 _lecturersRepository.AddSuperVisor(accompanimentCreateDeleteViewModel);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Accompaniments", new { activityNumber = accompanimentCreateDeleteViewModel.Activity.ActivityNumber });
             }
             catch (Exception ex)
             {
-                ViewData["ErrorMessage"] = ex.Message;
-                return View("Index");
+                ViewData["ErrorMessage"] = "CreateAccompaniment failed to execute.";
+                Console.WriteLine(ex.Message);
+                return RedirectToAction("Index", "Accompaniments", new { activityNumber = accompanimentCreateDeleteViewModel.Activity.ActivityNumber });
             }
         }
     }

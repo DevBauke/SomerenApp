@@ -1,4 +1,6 @@
-﻿namespace SomerenApp.Models
+﻿using SomerenApp.Models.Enums;
+
+namespace SomerenApp.Models
 {
     public class Activity
     {
@@ -15,6 +17,11 @@
             ActivityNumber = activityNumber;
             ActivityType = activityType;
             ActivityDate = activityDate;
+        }
+
+        public override string ToString()
+        {
+            return $"[Activity] ActivityNumber: {ActivityNumber}, ActivityType: {ActivityType}, ActivityDate: {ActivityDate}";
         }
     }
 }

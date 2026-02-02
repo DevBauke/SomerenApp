@@ -1,4 +1,4 @@
-﻿using SomerenApp.Models;
+﻿using SomerenApp.Models.ViewModels;
 namespace SomerenApp.ViewModels
 {
     public class AccompanimentViewModel

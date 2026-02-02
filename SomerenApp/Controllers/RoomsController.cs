@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using SomerenApp.Models;
-using SomerenApp.Repositories;
 using System.Diagnostics.Eventing.Reader;
+using SomerenApp.Repositories.Interfaces;
 
 namespace SomerenApp.Controllers
 {

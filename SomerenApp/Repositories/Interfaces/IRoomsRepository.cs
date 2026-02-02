@@ -1,7 +1,7 @@
 ﻿using SomerenApp.Models;
 using System.Collections.Generic;
 
-namespace SomerenApp.Repositories
+namespace SomerenApp.Repositories.Interfaces
 {
     public interface IRoomsRepository
     {

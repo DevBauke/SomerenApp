@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using SomerenApp.Models;
+using SomerenApp.Repositories.Interfaces;
 
 namespace SomerenApp.Repositories
 {
@@ -9,7 +10,10 @@ namespace SomerenApp.Repositories
 
         public DbDrinkOrdersRepository(IConfiguration configuration) 
         {
-            _connectionString = configuration.GetConnectionString("DB2");
+            _connectionString = Environment.GetEnvironmentVariable("Someren_ConnectionString");
+
+            if (string.IsNullOrWhiteSpace(_connectionString))
+                throw new InvalidOperationException("Someren_ConnectionString is niet ingesteld in .env");
         }
 
         public void AddOrder(DrinkOrder order)

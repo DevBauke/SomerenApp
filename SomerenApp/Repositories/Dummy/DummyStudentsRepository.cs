@@ -1,6 +1,7 @@
 ﻿using SomerenApp.Models;
+using SomerenApp.Repositories.Interfaces;
 
-namespace SomerenApp.Repositories
+namespace SomerenApp.Repositories.Dummy
 {
     public class DBStudentsRepository : IStudentsRepository
     {

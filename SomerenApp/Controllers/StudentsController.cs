@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using SomerenApp.Models;
-using SomerenApp.Repositories;
+using SomerenApp.Repositories.Interfaces;
 
 namespace SomerenApp.Controllers
 {

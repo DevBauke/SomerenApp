@@ -1,5 +1,7 @@
 ﻿using SomerenApp.Models;
-namespace SomerenApp.Repositories
+using SomerenApp.Models.Enums;
+using SomerenApp.Repositories.Interfaces;
+namespace SomerenApp.Repositories.Dummy
 {
     public class DummyRoomsRepository : IRoomsRepository
     {

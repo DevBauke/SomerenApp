@@ -1,8 +1,9 @@
 ﻿@model List<SomerenApp.Models.Activity>
 @{
     ViewData["Title"] = "Activity";
+    string? errorMessage = (string)ViewData["ErrorMessage"];
 }
-
+<h4>@errorMessage</h4>
 <div class="text-center">
     <h1 class="display-4">Activity</h1>
     <a href="/Activities/Create" class="mt-3 d-block" style="margin-bottom: 15px;">Create New Activity</a>
@@ -30,7 +31,7 @@
                             <a href="/Activities/Edit/@activity.ActivityNumber" class="link">Edit</a> |
                             <a href="/Activities/Delete/@activity.ActivityNumber" class="link">Delete</a>
                         </td>
-                        <td><a href="/Accompaniments/Index/@activity.ActivityNumber">Accompaniments</a></td>
+                        <td><a href="/Accompaniments/Index?activityNumber=@activity.ActivityNumber">Accompaniments</a></td>
                         <td><a href="/Participants">Participants</a></td>
                     </tr>
                 }

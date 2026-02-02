@@ -1,4 +1,4 @@
-﻿namespace SomerenApp.Repositories
+﻿namespace SomerenApp.Repositories.Interfaces
 {
     public interface IAccompanimentsRepository
     {

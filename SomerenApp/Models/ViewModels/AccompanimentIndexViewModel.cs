@@ -1,9 +1,9 @@
-﻿namespace SomerenApp.Models
+﻿namespace SomerenApp.Models.ViewModels
 {
     public class AccompanimentIndexViewModel
     {
         public Activity Activity {  get; set; }
-        public  List<Lecturer> Supervisors { get; set; }
+        public List<Lecturer> Supervisors { get; set; }
         public List<Lecturer> NonSupervisors { get; set; }
         public AccompanimentIndexViewModel()
         {

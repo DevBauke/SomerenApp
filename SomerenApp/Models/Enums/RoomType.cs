@@ -1,4 +1,4 @@
-﻿namespace SomerenApp.Models
+﻿namespace SomerenApp.Models.Enums
 {
     public enum RoomType
     {

@@ -1,5 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using SomerenApp.Models;
+using SomerenApp.Models.Enums;
+using SomerenApp.Repositories.Interfaces;
 using SomerenActivity = SomerenApp.Models.Activity; //prevents confusion with System.Diagnostics.Activity
 
 namespace SomerenApp.Repositories
@@ -10,7 +12,10 @@ namespace SomerenApp.Repositories
 
         public DbActivitiesRepository(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("DB2");
+            _connectionString = Environment.GetEnvironmentVariable("Someren_ConnectionString");
+
+            if (string.IsNullOrWhiteSpace(_connectionString))
+                throw new InvalidOperationException("Someren_ConnectionString is niet ingesteld in .env");
         }
 
         private Activity ReadActivity(SqlDataReader reader)
@@ -63,7 +68,7 @@ namespace SomerenApp.Repositories
         }
 
 
-        public SomerenActivity? GetByID(int activityNumber)
+        public SomerenActivity GetByID(int activityNumber)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -89,7 +94,6 @@ namespace SomerenApp.Repositories
             {
                 try
                 {
-                    
                     string query = $"INSERT INTO Activities (ActivityType, ActivityDate)" +
                                     "VALUES (@ActivityType, @ActivityDate); " +
                                     "SELECT SCOPE_IDENTITY();";

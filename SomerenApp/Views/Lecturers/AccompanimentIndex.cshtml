@@ -28,7 +28,7 @@
 					<td>@lecturer.Age</td>
 					<td>@lecturer.PhoneNumber</td>
 					<td>
-						<a href="/Accompaniments/Delete?AId=@Model?.Activity.ActivityNumber&LId=@lecturer.LecturerNumber">Delete</a>
+						<a href="/Lecturers/DeleteAccompaniment?AId=@Model?.Activity.ActivityNumber&LId=@lecturer.LecturerNumber">Delete</a>
 					</td>
 				</tr>
 			}
@@ -56,7 +56,7 @@
 					<td>@lecturer.Age</td>
 					<td>@lecturer.PhoneNumber</td>
 					<td>
-						<a href="/Accompaniments/Create/?AId=@Model?.Activity.ActivityNumber&LId=@lecturer.LecturerNumber">Create</a>
+						<a href="/Lecturers/CreateAccompaniment/?AId=@Model?.Activity.ActivityNumber&LId=@lecturer.LecturerNumber">Create</a>
 					</td>
 				</tr>
 			}

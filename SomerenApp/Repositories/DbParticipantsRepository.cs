@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using SomerenApp.Models;
+using SomerenApp.Repositories.Interfaces;
 using System.Diagnostics;
 
 namespace SomerenApp.Repositories
@@ -10,7 +11,10 @@ namespace SomerenApp.Repositories
 
         public DbParticipantsRepository(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("DB2");
+            _connectionString = Environment.GetEnvironmentVariable("Someren_ConnectionString");
+
+            if (string.IsNullOrWhiteSpace(_connectionString))
+                throw new InvalidOperationException("Someren_ConnectionString is niet ingesteld in .env");
         }
 
         private Participant ReadParticipant(SqlDataReader reader)

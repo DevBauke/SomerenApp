@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using SomerenApp.Models;
+using SomerenApp.Repositories.Interfaces;
 
 namespace SomerenApp.Repositories
 {

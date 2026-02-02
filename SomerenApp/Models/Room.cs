@@ -1,4 +1,6 @@
-﻿namespace SomerenApp.Models
+﻿using SomerenApp.Models.Enums;
+
+namespace SomerenApp.Models
 {
     public class Room
     {

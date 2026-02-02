@@ -1,4 +1,5 @@
 using SomerenApp.Repositories;
+using SomerenApp.Repositories.Interfaces;
 
 namespace SomerenApp
 {
