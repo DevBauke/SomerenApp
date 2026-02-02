@@ -6,17 +6,33 @@
 }
 <h4>@errorMessage</h4>
 <h1>Delete accompaniment</h1>
+<table class="table">
+	<thead class="table-dark">
+		<tr>
+			<th>Activity Number</th>
+			<th>Activity Type</th>
+			<th>Activity Date</th>
+			<th>Lecturer Number</th>
+			<th>Lecturer Name</th>
+		</tr>
+	</thead>
+	<tbody class="bg-opacity-10 bg-black">
+		<tr>
+			<td>@Model.Activity.ActivityNumber</td>
+			<td>@Model.Activity.ActivityType</td>
+			<td>@Model.Activity.ActivityDate</td>
+			<td>@Model.Lecturer.LecturerNumber</td>
+			<td>@Model.Lecturer.FirstName @Model.Lecturer.LastName</td>
+		</tr>
+	</tbody>
+</table>
 <form action="/Accompaniments/Delete" method="post">
-	<h2>Lecturer: @Model.Lecturer.FirstName @Model.Lecturer.LastName</h2>
-	<h3>Lecturer number: @Model.Lecturer.LecturerNumber</h3>
 	<input hidden type="number" name="Lecturer.LecturerNumber" value="@Model.Lecturer.LecturerNumber" />
 	<input hidden type="text" name="Lecturer.FirstName" required value="@Model.Lecturer.FirstName" />
 	<input hidden type="text" name="Lecturer.LastName" required value="@Model.Lecturer.LastName" />
 	<input hidden type="number" name="Lecturer.Age" required value="@Model.Lecturer.Age" />
 	<input hidden type="tel" name="Lecturer.PhoneNumber" required value="@Model.Lecturer.PhoneNumber" />
 
-	<h2>Activity: @Model.Activity.ActivityType</h2>
-	<h3>Date: @Model.Activity.ActivityDate</h3>
 	<input hidden type="number" name="Activity.ActivityNumber" value="@Model.Activity.ActivityNumber" />
 	<input hidden type="text" name="Activity.ActivityType" value="@Model.Activity.ActivityType" />
 	<input hidden type="text" name="Activity.ActivityDate" value="@Model.Activity.ActivityDate" />

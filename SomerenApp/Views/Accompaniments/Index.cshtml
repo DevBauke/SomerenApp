@@ -6,6 +6,23 @@
 	<h1 class="display-4 text-info">Accompaniments</h1>
 	<a href="Activities/Index">Go back to activities</a>
 </div>
+<h2>Activity</h2>
+<table class="table table-hover">
+	<thead class="table-dark">
+		<tr>
+			<th>ActivityNumber</th>
+			<th>ActivityType</th>
+			<th>ActivityDate</th>
+		</tr>
+	</thead>
+	<tbody class="bg-opacity-10 bg-black">
+		<tr>	
+			<td>@Model.Activity.ActivityNumber</td>
+			<td>@Model.Activity.ActivityType</td>
+			<td>@Model.Activity.ActivityDate</td>
+		</tr>
+	</tbody>
+</table>
 <!--AId = ActivityId and LId = LecturerNumber-->
 <h2>Supervisors</h2>
 <table class="table table-hover">
