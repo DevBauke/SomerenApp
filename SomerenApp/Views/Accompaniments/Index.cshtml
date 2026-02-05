@@ -10,14 +10,12 @@
 <table class="table table-hover">
 	<thead class="table-dark">
 		<tr>
-			<th>ActivityNumber</th>
 			<th>ActivityType</th>
 			<th>ActivityDate</th>
 		</tr>
 	</thead>
-	<tbody class="bg-opacity-10 bg-black">
+	<tbody class="bg-opacity-10 bg-black table-info">
 		<tr>	
-			<td>@Model.Activity.ActivityNumber</td>
 			<td>@Model.Activity.ActivityType</td>
 			<td>@Model.Activity.ActivityDate</td>
 		</tr>
@@ -35,7 +33,7 @@
 			<th>Remove supervisor</th>
 		</tr>
 	</thead>
-	<tbody class="bg-opacity-10 bg-black">
+	<tbody class="bg-opacity-10 bg-black table-success">
 		@{
 			foreach (Lecturer lecturer in Model.Supervisors)
 			{
@@ -45,7 +43,7 @@
 					<td>@lecturer.Age</td>
 					<td>@lecturer.PhoneNumber</td>
 					<td>
-						<a href="/Accompaniments/Delete?AId=@Model?.Activity.ActivityNumber&LId=@lecturer.LecturerNumber">Delete</a>
+						<a class="btn btn-info btn-outline-dark" href="/Accompaniments/Delete?AId=@Model?.Activity.ActivityNumber&LId=@lecturer.LecturerNumber">Remove supervisor</a>
 					</td>
 				</tr>
 			}
@@ -63,7 +61,7 @@
 			<th>Remove supervisor</th>
 		</tr>
 	</thead>
-	<tbody class="bg-opacity-10 bg-black">
+	<tbody class="bg-opacity-10 bg-black table-danger">
 		@{
 			foreach (Lecturer lecturer in Model.NonSupervisors)
 			{
@@ -73,7 +71,7 @@
 					<td>@lecturer.Age</td>
 					<td>@lecturer.PhoneNumber</td>
 					<td>
-						<a href="/Accompaniments/Create/?AId=@Model?.Activity.ActivityNumber&LId=@lecturer.LecturerNumber">Create</a>
+						<a class="btn btn-info btn-outline-dark" href="/Accompaniments/Create/?AId=@Model?.Activity.ActivityNumber&LId=@lecturer.LecturerNumber">Add supervisor</a>
 					</td>
 				</tr>
 			}

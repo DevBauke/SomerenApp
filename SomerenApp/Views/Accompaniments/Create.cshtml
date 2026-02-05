@@ -1,27 +1,23 @@
 ﻿@using SomerenApp.Models.ViewModels
 @model AccompanimentCreateDeleteViewModel
 @{
-	ViewData["Title"] = "Create Accompaniment";
+	ViewData["Title"] = "Add Supervisor";
 	string? errorMessage = (string)ViewData["ErrorMessage"];
 }
 <h4>@errorMessage</h4>
-<h1>Add accompaniment</h1>
+<h1>Add Supervisor</h1>
 <table class="table">
 	<thead class="table-dark">
 		<tr>
-			<th>Activity Number</th>
 			<th>Activity Type</th>
 			<th>Activity Date</th>
-			<th>Lecturer Number</th>
 			<th>Lecturer Name</th>
 		</tr>
 	</thead>
 	<tbody class="bg-opacity-10 bg-black">
 		<tr>
-			<td>@Model.Activity.ActivityNumber</td>
 			<td>@Model.Activity.ActivityType</td>
 			<td>@Model.Activity.ActivityDate</td>
-			<td>@Model.Lecturer.LecturerNumber</td>
 			<td>@Model.Lecturer.FirstName @Model.Lecturer.LastName</td>
 		</tr>
 	</tbody>
@@ -37,6 +33,6 @@
 	<input hidden type="text" name="Activity.ActivityType" value="@Model.Activity.ActivityType" />
 	<input hidden type="text" name="Activity.ActivityDate" value="@Model.Activity.ActivityDate" />
 	
-	<button type="submit" class="btn btn-primary">Add Accompaniment</button>
+	<button type="submit" class="btn btn-primary">Add Supervisor</button>
 </form>
-<a href="/Accompaniments/Index?activityNumber=@Model.Activity.ActivityNumber">Back to List</a>
+<a class="btn btn-dark" href="/Accompaniments/Index?activityNumber=@Model.Activity.ActivityNumber">Back to List</a>
